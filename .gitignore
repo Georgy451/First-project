@@ -1,0 +1,8 @@
+# Кэш Python
+/__pycache__/
+*.py[cod]
+
+# База данных SQLite
+*.sqlite3
+*.db
+
