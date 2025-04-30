@@ -4,49 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Топ лучших песен</title>
+    <title>Music</title>
     <link rel="stylesheet" href="{% static 'song/css/style.css' %}">
+
 </head>
 <body>
-    <header>
-        <h1>Топ 100 лучших песен</h1>
-        <p>Самые популярные треки этой недели</p>
-    </header>
-    
     <div class="container">
-        <div class="filters">
-            <div class="filter-group">
-                <label for="genre">Жанр:</label>
-                <select id="genre">
-                    <option>Все жанры</option>
-                    <option>Поп</option>
-                    <option>Рок</option>
-                    <option>Хип-хоп</option>
-                    <option>Электроника</option>
-                    <option>R&B</option>
-                </select>
-            </div>
-            
-            <div class="filter-group">
-                <label for="time">Период:</label>
-                <select id="time">
-                    <option>Эта неделя</option>
-                    <option>Этот месяц</option>
-                    <option>Этот год</option>
-                    <option>Все время</option>
-                </select>
-            </div>
-            
-            <div class="filter-group">
-                <input type="text" class="search-bar" placeholder="Поиск песен или исполнителей...">
+        <h1 class="main-title">Music</h1>
+        
+        <div class="auth-buttons">
+            <button class="btn btn-primary">Войти</button>
+            <button class="btn btn-secondary">Регистрация</button>
+        </div>
+
+        <div class="social-section">
+            <h3 class="social-title">Следите за нами</h3>
+            <div class="social-links">
+                <a href="#" class="social-btn vk">📘 ВКонтакте</a>
+                <a href="#" class="social-btn instagram">📸 Instagram</a>
+                <a href="#" class="social-btn tiktok">🎵 TikTok</a>
             </div>
         </div>
-        
-        <div class="song-list" id="songList">
-            <!-- Сюда будут добавляться песни через JavaScript -->
+
+        <div class="info-links">
+            <a href="#">О сервисе</a>
+            <a href="#">Помощь</a>
+            <a href="#">Реклама</a>
         </div>
     </div>
-
-    <script src="{% static 'songs/js/script.js' %}"></script>
 </body>
 </html>
