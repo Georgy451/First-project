@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MusicFlow - Ваша музыкальная платформа</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <div>
+                <h1>MusicFlow</h1>
+            </div>
+            <div>
+                <ul>
+                    <li><a href="#">Главная</a></li>
+                    <li><a href="#">Поиск</a></li>
+                    <li><a href="#">Моя музыка</a></li>
+                    <li><a href="#">Плейлисты</a></li>
+                </ul>
+            </div>
+            <div>
+                <a href="#">Профиль</a>
+                <button>Выйти</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Ваши плейлисты</h2>
+            <div>
+                <div>
+                    <img src="placeholder-playlist.jpg" alt="Плейлист 1" width="150" height="150">
+                    <h3>Мой плейлист #1</h3>
+                    <button>Открыть</button>
+                </div>
+                <div>
+                    <img src="placeholder-playlist.jpg" alt="Плейлист 2" width="150" height="150">
+                    <h3>Любимые треки</h3>
+                    <button>Открыть</button>
+                </div>
+                <div>
+                    <button>+ Создать новый плейлист</button>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Загрузить свою музыку</h2>
+            <form>
+                <input type="file" accept="audio/*">
+                <input type="text" placeholder="Название трека">
+                <input type="text" placeholder="Исполнитель">
+                <button type="submit">Загрузить</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <div>
+            <p>© 2023 MusicFlow</p>
+        </div>
+        <div>
+            <ul>
+                <li><a href="#">О нас</a></li>
+                <li><a href="#">Помощь</a></li>
+                <li><a href="#">Контакты</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- Нижний плеер -->
+    <div>
+        <div>
+            <img src="placeholder-now-playing.jpg" alt="Сейчас играет" width="50" height="50">
+            <div>
+                <p>Название трека</p>
+                <p>Исполнитель</p>
+            </div>
+        </div>
+        <div>
+            <button>⏮</button>
+            <button>⏯</button>
+            <button>⏭</button>
+        </div>
+        <div>
+            <input type="range" min="0" max="100" value="30">
+        </div>
+    </div>
+</body>
+</html>
