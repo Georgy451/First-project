@@ -1,9 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MusicFlow - Ваша музыкальная платформа</title>
+    <link rel="stylesheet" href="{% static 'song/css/styl.css' %}">
 </head>
 <body>
     <header>
@@ -13,39 +15,21 @@
             </div>
             <div>
                 <ul>
-                    <li><a href="#">Главная</a></li>
-                    <li><a href="#">Поиск</a></li>
-                    <li><a href="#">Моя музыка</a></li>
-                    <li><a href="#">Плейлисты</a></li>
+                    <li><a href="{% url 'base' %}">Главная</a></li>
+                    <li><a href="{% url 'search' %}">Поиск</a></li>
                 </ul>
             </div>
             <div>
-                <a href="#">Профиль</a>
+                {% block profile %}
+                <a href="{% url 'profile' %}">Профиль</a>
                 <button>Выйти</button>
+                {% endblock profile %}
             </div>
         </nav>
     </header>
 
     <main>
-        <section>
-            <h2>Ваши плейлисты</h2>
-            <div>
-                <div>
-                    <img src="placeholder-playlist.jpg" alt="Плейлист 1" width="150" height="150">
-                    <h3>Мой плейлист #1</h3>
-                    <button>Открыть</button>
-                </div>
-                <div>
-                    <img src="placeholder-playlist.jpg" alt="Плейлист 2" width="150" height="150">
-                    <h3>Любимые треки</h3>
-                    <button>Открыть</button>
-                </div>
-                <div>
-                    <button>+ Создать новый плейлист</button>
-                </div>
-            </div>
-        </section>
-
+        {% block content %}
         <section>
             <h2>Загрузить свою музыку</h2>
             <form>
@@ -55,6 +39,7 @@
                 <button type="submit">Загрузить</button>
             </form>
         </section>
+        {% endblock content %}
     </main>
 
     <footer>
@@ -62,11 +47,13 @@
             <p>© 2023 MusicFlow</p>
         </div>
         <div>
+            {% block help %}    
             <ul>
-                <li><a href="#">О нас</a></li>
+                <li><a href="{% url 'about' %}">О нас</a></li>
                 <li><a href="#">Помощь</a></li>
                 <li><a href="#">Контакты</a></li>
             </ul>
+            {% endblock help %}
         </div>
     </footer>
 

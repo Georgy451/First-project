@@ -1,0 +1,49 @@
+{% extends "song/base.html" %}
+
+{% block profile %}
+<div class="simple-profile">
+    <img src="/static/images/default-avatar.jpg" 
+         alt="Аватар" class="simple-avatar">
+    <h2>{{ username }}</h2>
+    <p class="simple-bio">{{ bio }}</p>
+    
+    <div class="simple-stats">
+        <span>Треков: {{ tracks_count }}</span> |
+        <span>Подписчиков: {{ followers_count }}</span> |
+        <span>Подписок: {{ following_count }}</span>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="simple-tracks">
+    <h3>Мои треки</h3>
+    
+    <div class="tracks-list">
+        {% for track in user_tracks %}
+        <div class="track-item">
+            <div class="track-cover">
+                <img src="/static/images/default-track.jpg" alt="Обложка">
+            </div>
+            <div class="track-details">
+                <strong>{{ track.title }}</strong>
+                <p>{{ track.artist }}</p>
+                <span>Прослушиваний: {{ track.plays }}</span>
+            </div>
+        </div>
+        {% empty %}
+        <div class="no-tracks">
+            <p>Пока нет загруженных треков</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block help %}
+<div class="simple-help">
+    <a href="#">Помощь</a> | 
+    <a href="#">Настройки</a> | 
+    <a href="#">Контакты</a>
+</div>
+{% endblock %}
