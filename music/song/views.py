@@ -14,7 +14,7 @@ def base(request):
         form = TrackUploadForm(request.POST, request.FILES)
         if form.is_valid():
             track = form.save(commit=False)
-            if request.user.is_authenticated:  # Если пользователь авторизован
+            if request.user.is_authenticated: 
                 track.user = request.user
             track.save()
             messages.success(request, 'Трек успешно загружен!')
@@ -25,17 +25,17 @@ def base(request):
     return render(request, 'song/base.html', {'form': form})
 
 def profile(request):
+  
+    user_tracks = Track.objects.values('title', 'artist') 
+    tracks_count = user_tracks.count()  
+    
     context = {
         'username': 'МузыкальныйЭнтузиаст',
         'bio': 'Слушаю и создаю музыку',
-        'tracks_count': 3,
-        'followers_count': 42,
-        'following_count': 13,
-        'user_tracks': [
-            {'title': 'Мой первый трек', 'artist': 'Я', 'plays': 100},
-            {'title': 'Летний бит', 'artist': 'Я', 'plays': 75},
-            {'title': 'Осенняя мелодия', 'artist': 'Я', 'plays': 50},
-        ]
+        'tracks_count': tracks_count,
+        'followers_count': 0,  
+        'following_count': 0, 
+        'user_tracks': user_tracks,
     }
     return render(request, 'song/profile.html', context)
 

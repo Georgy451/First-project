@@ -16,27 +16,31 @@
 {% endblock %}
 
 {% block content %}
-<div class="simple-tracks">
-    <h3>Мои треки</h3>
+<div>
+    <h2>Мои треки ({{ tracks_count }})</h2>
     
-    <div class="tracks-list">
-        {% for track in user_tracks %}
-        <div class="track-item">
-            <div class="track-cover">
-                <img src="/static/images/default-track.jpg" alt="Обложка">
-            </div>
-            <div class="track-details">
-                <strong>{{ track.title }}</strong>
-                <p>{{ track.artist }}</p>
-                <span>Прослушиваний: {{ track.plays }}</span>
-            </div>
-        </div>
-        {% empty %}
-        <div class="no-tracks">
-            <p>Пока нет загруженных треков</p>
-        </div>
-        {% endfor %}
+    {% if user_tracks %}
+    <table border="1" cellpadding="10" cellspacing="0" width="100%">
+        <thead>
+            <tr bgcolor="#f2f2f2">
+                <th>Название</th>
+                <th>Исполнитель</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for track in user_tracks %}
+            <tr>
+                <td><strong>{{ track.title }}</strong></td>
+                <td>{{ track.artist }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div>
+        <p><i>Пока нет добавленных треков</i></p>
     </div>
+    {% endif %}
 </div>
 {% endblock %}
 
