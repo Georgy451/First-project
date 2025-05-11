@@ -6,17 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music</title>
     <link rel="stylesheet" href="{% static 'song/css/style.css' %}">
-
 </head>
 <body>
     <div class="container">
         <h1 class="main-title">Music</h1>
         
+        {% block content %}
         <div class="auth-buttons">
-            <button class="btn btn-primary">Войти</button>
-            <button class="btn btn-secondary">Регистрация</button>
+            <a href="{% url 'login' %}" class="btn btn-primary">Войти</a>
+            <a href="{% url 'register' %}" class="btn btn-secondary">Регистрация</a>
         </div>
-
+        
         <div class="social-section">
             <h3 class="social-title">Следите за нами</h3>
             <div class="social-links">
@@ -25,12 +25,13 @@
                 <a href="#" class="social-btn tiktok">🎵 TikTok</a>
             </div>
         </div>
-
+        
         <div class="info-links">
             <a href="#">О сервисе</a>
             <a href="#">Помощь</a>
             <a href="#">Реклама</a>
         </div>
+        {% endblock %}
     </div>
 </body>
 </html>
