@@ -28,11 +28,12 @@ def base(request):
     return render(request, 'song/base.html', {'form': form})
 
 def profile(request):
-    user_tracks = Track.objects.values('title', 'artist') 
+    user_tracks = Track.objects.values('title',) 
     tracks_count = user_tracks.count()  
+    username = request.user.username
     
     context = {
-        'username': 'МузыкальныйЭнтузиаст',
+        'username': username,
         'bio': 'Слушаю и создаю музыку',
         'tracks_count': tracks_count,
         'followers_count': 0,  
@@ -72,7 +73,7 @@ class LoginUser(LoginView):
         return context
 
     def get_success_url(self):
-        return reverse_lazy('home')
+        return reverse_lazy('base')
 
 def logout_user(request):
     logout(request)

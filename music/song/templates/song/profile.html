@@ -2,8 +2,6 @@
 
 {% block profile %}
 <div class="simple-profile">
-    <img src="/static/images/default-avatar.jpg" 
-         alt="Аватар" class="simple-avatar">
     <h2>{{ username }}</h2>
     <p class="simple-bio">{{ bio }}</p>
     
@@ -24,14 +22,12 @@
         <thead>
             <tr bgcolor="#f2f2f2">
                 <th>Название</th>
-                <th>Исполнитель</th>
             </tr>
         </thead>
         <tbody>
             {% for track in user_tracks %}
             <tr>
                 <td><strong>{{ track.title }}</strong></td>
-                <td>{{ track.artist }}</td>
             </tr>
             {% endfor %}
         </tbody>

@@ -6,14 +6,10 @@ from django.contrib.auth.models import User
 class TrackUploadForm(forms.ModelForm):
     class Meta:
         model = Track
-        fields = ['title', 'artist', 'audio_file']
+        fields = ['title', 'audio_file']
         widgets = {
             'title': forms.TextInput(attrs={
                 'placeholder': 'Название трека',
-                'class': 'form-input'
-            }),
-            'artist': forms.TextInput(attrs={
-                'placeholder': 'Исполнитель',
                 'class': 'form-input'
             }),
             'audio_file': forms.FileInput(attrs={

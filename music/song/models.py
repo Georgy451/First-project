@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 class Track(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=100, verbose_name="Название трека")
-    artist = models.CharField(max_length=100, verbose_name="Исполнитель")
     audio_file = models.FileField(upload_to='tracks/', verbose_name="Аудиофайл") 
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
