@@ -8,4 +8,4 @@ class Track(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.artist} - {self.title}"
+        return f"{self.user.username if self.user else 'Аноним'} - {self.title}" 

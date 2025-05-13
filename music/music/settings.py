@@ -26,7 +26,9 @@ SECRET_KEY = 'django-insecure-4%hr*5u^*8cer(s42pv4-*$gnv4(3+8wtbo^)72uxa)@_9g20y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ 'localhost',
+    '127.0.0.1',
+    'f74d-57-128-101-224.ngrok-free.app',]
 
 
 # Application definition
@@ -135,3 +137,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://f74d-57-128-101-224.ngrok-free.app',  # Точный URL ngrok
+]

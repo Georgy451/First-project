@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MusicFlow - Ваша музыкальная платформа</title>
     <link rel="stylesheet" href="{% static 'song/css/styl.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header>
@@ -16,7 +17,6 @@
             <div>
                 <ul>
                     <li><a href="{% url 'base' %}">Главная</a></li>
-                    <li><a href="{% url 'search' %}">Поиск</a></li>
                 </ul>
             </div>
             <div>
@@ -30,45 +30,84 @@
 
     <main>
     {% block content %}
-<section class="upload-section">
-    <h2>Загрузить свою музыку</h2>
-    
-    {% if messages %}
-    <div class="messages">
-        {% for message in messages %}
-        <div class="alert alert-success">{{ message }}</div>
-        {% endfor %}
-    </div>
-    {% endif %}
-    
-    <form method="post" enctype="multipart/form-data" class="upload-form">
-        {% csrf_token %}
-        <div class="form-group">
-            {{ form.title }}
-        </div>
-        <div class="form-group">
-            {{ form.audio_file }}
-        </div>
-        <button type="submit" class="upload-button">Загрузить</button>
-    </form>
-</section>
+    <div class="music-container">
+        <!-- Секция загрузки -->
+        <section class="upload-section">
+            <h2>Загрузить свою музыку</h2>
+            
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="alert alert-success">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <form method="post" enctype="multipart/form-data" class="upload-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.title }}
+                </div>
+                <div class="form-group">
+                    {{ form.audio_file }}
+                </div>
+                <button type="submit" class="upload-button">Загрузить</button>
+            </form>
+        </section>
 
-<section class="player-section">
-    <h2>Музыкальный плеер</h2>
-    <div class="audio-player">
-        <audio controls id="main-audio-player">
-            <source src="" type="audio/mpeg">
-            Ваш браузер не поддерживает аудио элемент.
-        </audio>
-        <div class="player-controls">
-            <button class="play-pause-btn">▶️</button>
-            <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="0.7">
-            <span class="current-time">0:00</span> / <span class="total-time">0:00</span>
-        </div>
-        <div class="playlist">
-        </div>
+        <!-- Компактное окно с треками -->
+        <section class="tracks-window">
+            <div class="tracks-header">
+                <h3>Мои треки</h3>
+                <div class="search-box">
+                    <input type="text" id="track-search" placeholder="Поиск треков...">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+            
+            <div class="tracks-list-container">
+                <ul class="tracks-list">
+                    {% for song in songs %}
+                    <li class="track-item" data-audio-url="{{ song.audio_file.url }}">
+                        <div class="track-info">
+                            <span class="track-title">{{ song.title }}</span>
+                        </div>
+                        <button class="play-btn" data-audio-url="{{ song.audio_file.url }}">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </li>
+                    {% empty %}
+                    <li class="no-tracks">У вас пока нет загруженных треков</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+
+        <!-- Плеер -->
+        <section class="player-section">
+            <div class="audio-player">
+                <div class="player-info">
+                    <div class="now-playing">Сейчас играет: <span id="current-track">Не выбрано</span></div>
+                </div>
+                
+                <div class="player-controls">
+                    <button id="prev-btn"><i class="fas fa-step-backward"></i></button>
+                    <button id="play-btn"><i class="fas fa-play"></i></button>
+                    <button id="next-btn"><i class="fas fa-step-forward"></i></button>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                    <div class="time-info">
+                        <span id="current-time">0:00</span>
+                        <span id="duration">0:00</span>
+                    </div>
+                </div>
+                
+                <audio id="main-audio-player"></audio>
+            </div>
+        </section>
     </div>
-</section>
     {% endblock content %}
     </main>
 
@@ -86,4 +125,8 @@
             {% endblock help %}
         </div>
     </footer>
+
+    <script src="{% static 'song/js/player.js' %}"></script>
+</body>
+</html>
 

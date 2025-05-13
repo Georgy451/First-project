@@ -9,10 +9,13 @@ from django.urls import reverse_lazy
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
 
+
+
 def index(request):
     return render(request, 'song/index.html')
 
-def base(request):
+def base(request): 
+    songs = Track.objects.filter(user=request.user).all()
     if request.method == 'POST':
         form = TrackUploadForm(request.POST, request.FILES)
         if form.is_valid():
@@ -25,7 +28,7 @@ def base(request):
     else:
         form = TrackUploadForm()
     
-    return render(request, 'song/base.html', {'form': form})
+    return render(request, 'song/base.html', {'songs': songs, 'form': form})
 
 def profile(request):
     user_tracks = Track.objects.filter(user=request.user).values('title', 'audio_file')
