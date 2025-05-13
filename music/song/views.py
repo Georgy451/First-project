@@ -28,7 +28,7 @@ def base(request):
     return render(request, 'song/base.html', {'form': form})
 
 def profile(request):
-    user_tracks = Track.objects.values('title',) 
+    user_tracks = Track.objects.filter(user=request.user).values('title', 'audio_file')
     tracks_count = user_tracks.count()  
     username = request.user.username
     

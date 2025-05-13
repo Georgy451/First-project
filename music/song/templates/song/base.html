@@ -22,7 +22,7 @@
             <div>
                 {% block profile %}
                 <a href="{% url 'profile' %}">Профиль</a>
-                <button>Выйти</button>
+                <a href="{% url 'home' %}" class="button">Выйти</a>
                 {% endblock profile %}
             </div>
         </nav>
@@ -52,6 +52,23 @@
         <button type="submit" class="upload-button">Загрузить</button>
     </form>
 </section>
+
+<section class="player-section">
+    <h2>Музыкальный плеер</h2>
+    <div class="audio-player">
+        <audio controls id="main-audio-player">
+            <source src="" type="audio/mpeg">
+            Ваш браузер не поддерживает аудио элемент.
+        </audio>
+        <div class="player-controls">
+            <button class="play-pause-btn">▶️</button>
+            <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="0.7">
+            <span class="current-time">0:00</span> / <span class="total-time">0:00</span>
+        </div>
+        <div class="playlist">
+        </div>
+    </div>
+</section>
     {% endblock content %}
     </main>
 
@@ -70,22 +87,3 @@
         </div>
     </footer>
 
-    <!-- Нижний плеер -->
-    <div>
-        <div>
-            <img src="placeholder-now-playing.jpg" alt="Сейчас играет" width="50" height="50">
-            <div>
-                <p>Название трека</p>
-            </div>
-        </div>
-        <div>
-            <button>⏮</button>
-            <button>⏯</button>
-            <button>⏭</button>
-        </div>
-        <div>
-            <input type="range" min="0" max="100" value="30">
-        </div>
-    </div>
-</body>
-</html>
