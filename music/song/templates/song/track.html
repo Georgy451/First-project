@@ -1,0 +1,30 @@
+{% extends "song/base.html" %}
+
+{% block content %}
+<section class="tracks-window">
+            <div class="tracks-header">
+                <h3>Мои треки</h3>
+                <div class="search-box">
+                    <input type="text" id="track-search" placeholder="Поиск треков...">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+            
+            <div class="tracks-list-container">
+                <ul class="tracks-list">
+                    {% for song in songs %}
+                    <li class="track-item" data-audio-url="{{ song.audio_file.url }}">
+                        <div class="track-info">
+                            <span class="track-title">{{ song.title }}</span>
+                        </div>
+                        <button class="play-btn" data-audio-url="{{ song.audio_file.url }}">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </li>
+                    {% empty %}
+                    <li class="no-tracks">У вас пока нет загруженных треков</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+{% endblock %}

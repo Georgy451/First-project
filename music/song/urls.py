@@ -10,4 +10,8 @@ urlpatterns = [
     path('about', about, name='about'),
     path('register/', RegisterUser.as_view(), name='register'),
     path('login/', LoginUser.as_view(), name='login'),
+    path('track', track, name='track'),
+    path('user', user, name='user'),
+    path('install', install, name='install'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

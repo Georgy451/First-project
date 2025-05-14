@@ -15,7 +15,18 @@ def index(request):
     return render(request, 'song/index.html')
 
 def base(request): 
+    return render(request, 'song/base.html')
+
+
+def user(request):
+    return render(request, 'song/user.html')
+def track(request):
     songs = Track.objects.filter(user=request.user).all()
+    return render(request, 'song/track.html', {'songs': songs,})
+    
+
+
+def install(request):
     if request.method == 'POST':
         form = TrackUploadForm(request.POST, request.FILES)
         if form.is_valid():
@@ -28,7 +39,9 @@ def base(request):
     else:
         form = TrackUploadForm()
     
-    return render(request, 'song/base.html', {'songs': songs, 'form': form})
+    return render(request, 'song/install.html', {'form': form})
+
+
 
 def profile(request):
     user_tracks = Track.objects.filter(user=request.user).values('title', 'audio_file')
@@ -44,9 +57,6 @@ def profile(request):
         'user_tracks': user_tracks,
     }
     return render(request, 'song/profile.html', context)
-
-def search(request):
-    return render(request, 'song/search.html')
 
 def about(request):
     return render(request, 'song/about.html')
