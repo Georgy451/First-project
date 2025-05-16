@@ -3,9 +3,9 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'song/css/styl.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MusicFlow - Ваша музыкальная платформа</title>
-    <link rel="stylesheet" href="{% static 'song/css/styl.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -31,62 +31,66 @@
     </header>
 
     <main>
-    {% block content %}
+{% block content %}
+    <section class="all-playlists-section" style="margin:30px auto;max-width:700px;">
+        <h2>Мои плейлисты</h2>
+        <ul>
+            {% for playlist in all_playlists %}
+                <li>
+                    <strong>{{ playlist.name }}</strong> ({{ playlist.user.username }})
+                    <ul>
+                        {% for track in playlist.tracks.all %}
+                            <li class="track-item" data-audio-url="{{ track.audio_file.url }}" 
+                                style="padding:5px;cursor:pointer;">
+                                <span class="track-title">{{ track.title }}</span>
+                                {% if track.audio_file %}
+                                    <audio controls style="margin-left:10px;">
+                                        <source src="{{ track.audio_file.url }}">
+                                    </audio>
+                                {% endif %}
+                            </li>
+                        {% empty %}
+                            <li>Плейлист пуст.</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% empty %}
+                <li>Плейлистов пока нет.</li>
+            {% endfor %}
+        </ul>
+    </section>
 
-        <section class="player-section">
-            <div class="audio-player">
-                <div class="player-info">
-                    <div class="now-playing">Сейчас играет: <span id="current-track">Не выбрано</span></div>
-                </div>
-                
-                <div class="player-controls">
-                    <button id="prev-btn"><i class="fas fa-step-backward"></i></button>
-                    <button id="play-btn"><i class="fas fa-play"></i></button>
-                    <button id="next-btn"><i class="fas fa-step-forward"></i></button>
-                </div>
-                
-                <div class="progress-container">
-                    <div class="progress-bar" id="progress-bar"></div>
-                    <div class="time-info">
-                        <span id="current-time">0:00</span>
-                        <span id="duration">0:00</span>
-                    </div>
-                </div>
-                
-                <audio id="main-audio-player"></audio>
+    <section class="player-section">
+        <div class="audio-player">
+            <div class="player-info">
+                <div>Сейчас играет: <span id="current-track">Не выбрано</span></div>
             </div>
-        </section>
-
-        <section class="all-playlists-section" style="margin: 30px auto; max-width: 700px;">
-    <h2>Мои плейлисты</h2>
-    <ul>
-        {% for playlist in all_playlists %}
-            <li>
-                <strong>{{ playlist.name }}</strong> ({{ playlist.user.username }})
-                <ul>
-                    {% for track in playlist.tracks.all %}
-                        <li>
-                            {{ track.title }}
-                            {% if track.audio_file %}
-                                <audio controls style="vertical-align: middle; margin-left: 10px;">
-                                    <source src="{{ track.audio_file.url }}">
-                                    Ваш браузер не поддерживает аудио.
-                                </audio>
-                            {% endif %}
-                        </li>
-                    {% empty %}
-                        <li>Плейлист пуст.</li>
-                    {% endfor %}
-                </ul>
-            </li>
-        {% empty %}
-            <li>Плейлистов пока нет.</li>
-        {% endfor %}
-    </ul>
-        </section>
-
-    </div>
-    {% endblock content %}
+            
+            <div class="player-controls">
+                <button id="prev-btn"><i class="fas fa-step-backward"></i></button>
+                <button id="play-btn"><i class="fas fa-play"></i></button>
+                <button id="next-btn"><i class="fas fa-step-forward"></i></button>
+                
+                <div class="volume-control">
+                    <button id="volume-down-btn"><i class="fas fa-volume-down"></i></button>
+                    <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="1">
+                    <button id="volume-up-btn"><i class="fas fa-volume-up"></i></button>
+                </div>
+            </div>
+            
+            <div class="progress-container">
+                <div id="progress-bar-container" style="width:100%;height:5px;background:#ddd;cursor:pointer;">
+                    <div id="progress-bar" style="height:100%;background:#1db954;width:0%"></div>
+                </div>
+                <div class="time-info">
+                    <span id="current-time">0:00</span> / <span id="duration">0:00</span>
+                </div>
+            </div>
+            
+            <audio id="main-audio-player"></audio>
+        </div>
+    </section>
+{% endblock content %}
     </main>
 
     <footer>
