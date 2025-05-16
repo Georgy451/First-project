@@ -50,24 +50,46 @@
     </section>
 
     <section class="add-to-playlist-section" style="margin-bottom: 30px; background: rgba(255,255,255,0.07); border-radius: 16px; padding: 24px;">
-        <h2>Добавить трек в плейлист</h2>
-        <form method="post">
-            {% csrf_token %}
-            <label for="track_id">Трек:</label>
-            <select name="track_id" id="track_id">
-                {% for song in songs %}
-                    <option value="{{ song.id }}">{{ song.title }}</option>
-                {% endfor %}
-            </select>
-            <label for="playlist_id">Плейлист:</label>
-            <select name="playlist_id" id="playlist_id">
-                {% for playlist in playlists %}
-                    <option value="{{ playlist.id }}">{{ playlist.name }}</option>
-                {% endfor %}
-            </select>
-            <button type="submit" name="add_to_playlist">Добавить</button>
-        </form>
-    </section>
+    <h2>Добавить трек в плейлист</h2>
+    <form method="post" style="display: inline-block; margin-right: 16px;">
+        {% csrf_token %}
+        <label for="track_id">Трек:</label>
+        <select name="track_id" id="track_id">
+            {% for song in songs %}
+                <option value="{{ song.id }}">{{ song.title }}</option>
+            {% endfor %}
+        </select>
+        <label for="playlist_id">Плейлист:</label>
+        <select name="playlist_id" id="playlist_id">
+            {% for playlist in playlists %}
+                <option value="{{ playlist.id }}">{{ playlist.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" name="add_to_playlist">Добавить</button>
+    </form>
+    <!-- Форма для удаления плейлиста -->
+    <form method="post" style="display: inline-block; margin-right: 16px;">
+        {% csrf_token %}
+        <label for="delete_playlist_id">Плейлист:</label>
+        <select name="delete_playlist_id" id="delete_playlist_id">
+            {% for playlist in playlists %}
+                <option value="{{ playlist.id }}">{{ playlist.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" name="delete_playlist" style="background: #e74c3c; color: #fff;">Удалить плейлист</button>
+    </form>
+    <!-- Форма для удаления трека -->
+    <form method="post" style="display: inline-block;">
+        {% csrf_token %}
+        <label for="delete_track_id">Трек:</label>
+        <select name="delete_track_id" id="delete_track_id">
+            {% for song in songs %}
+                <option value="{{ song.id }}">{{ song.title }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" name="delete_track" style="background: #e67e22; color: #fff;">Удалить трек</button>
+    </form>
+</section>
 
     <div class="tracks-list-container">
         <ul class="tracks-list">

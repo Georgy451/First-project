@@ -64,6 +64,24 @@ def track(request):
             except (Playlist.DoesNotExist, Track.DoesNotExist):
                 messages.error(request, 'Ошибка при добавлении трека в плейлист.')
             form = TrackUploadForm()
+        elif 'delete_playlist' in request.POST:
+            playlist_id = request.POST.get('delete_playlist_id')
+            try:
+                playlist = Playlist.objects.get(id=playlist_id, user=request.user)
+                playlist.delete()
+                messages.success(request, 'Плейлист удалён!')
+            except Playlist.DoesNotExist:
+                messages.error(request, 'Плейлист не найден.')
+            form = TrackUploadForm()
+        elif 'delete_track' in request.POST:
+            track_id = request.POST.get('delete_track_id')
+            try:
+                track = Track.objects.get(id=track_id, user=request.user)
+                track.delete()
+                messages.success(request, 'Трек удалён!')
+            except Track.DoesNotExist:
+                messages.error(request, 'Трек не найден.')
+            form = TrackUploadForm()
         else:
             form = TrackUploadForm(request.POST, request.FILES)
             if form.is_valid():
