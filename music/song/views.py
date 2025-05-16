@@ -23,27 +23,57 @@ def user(request):
     users = User.objects.all()
     return render(request, 'song/user.html', {'users': users})
 
+def user_profile(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    profile, _ = Profile.objects.get_or_create(user=user)
+    tracks = Track.objects.filter(user=user)
+    followers_count = profile.followers.count()
+    following_count = profile.subscriptions.count()
+    context = {
+        "profile_user": user,
+        "bio": profile.bio,
+        "tracks": tracks,
+        "tracks_count": tracks.count(),
+        "followers_count": followers_count,
+        "following_count": following_count,
+    }
+    return render(request, "song/user_profile.html", context)
+
 def track(request):
-    songs = Track.objects.filter(user=request.user).all()
-    return render(request, 'song/track.html', {'songs': songs,})
-    
-
-
-def install(request):
+    songs = Track.objects.filter(user=request.user)
+    playlists = Playlist.objects.filter(user=request.user)
     if request.method == 'POST':
-        form = TrackUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            track = form.save(commit=False)
-            if request.user.is_authenticated: 
+        if 'add_playlist' in request.POST:
+            name = request.POST.get('playlist_name', '').strip()
+            if name:
+                Playlist.objects.create(user=request.user, name=name)
+            form = TrackUploadForm()
+        elif 'add_to_playlist' in request.POST:
+            track_id = request.POST.get('track_id')
+            playlist_id = request.POST.get('playlist_id')
+            try:
+                playlist = Playlist.objects.get(id=playlist_id, user=request.user)
+                track_obj = Track.objects.get(id=track_id, user=request.user)
+                playlist.tracks.add(track_obj)
+                messages.success(request, 'Трек добавлен в плейлист!')
+            except (Playlist.DoesNotExist, Track.DoesNotExist):
+                messages.error(request, 'Ошибка при добавлении трека в плейлист.')
+            form = TrackUploadForm()
+        else:
+            form = TrackUploadForm(request.POST, request.FILES)
+            if form.is_valid():
+                track = form.save(commit=False)
                 track.user = request.user
-            track.save()
-            messages.success(request, 'Трек успешно загружен!')
-            return redirect('base')
+                track.save()
+                messages.success(request, 'Трек успешно загружен!')
+                return redirect('track')
     else:
         form = TrackUploadForm()
-    
-    return render(request, 'song/install.html', {'form': form})
-
+    return render(request, 'song/track.html', {
+        'songs': songs,
+        'form': form,
+        'playlists': playlists,
+    })
 
 
 @login_required
@@ -54,13 +84,19 @@ def profile(request):
     following_count = profile.subscriptions.count()
 
     if request.method == "POST":
-        bio = request.POST.get("bio", "")
-        profile.bio = bio
-        profile.save()
+        if "set_status" in request.POST:
+            status = request.POST.get("status", "")
+            profile.status = status
+            profile.save()
+        else:
+            bio = request.POST.get("bio", "")
+            profile.bio = bio
+            profile.save()
 
     context = {
         "username": request.user.username,
         "bio": profile.bio,
+        "status": profile.status,
         "tracks_count": tracks_count,
         "followers_count": followers_count,
         "following_count": following_count,

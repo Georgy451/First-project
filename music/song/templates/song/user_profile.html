@@ -1,0 +1,23 @@
+{% extends "song/base.html" %}
+
+{% block content %}
+<div class="simple-profile">
+    <h2>{{ profile_user.username }}</h2>
+    <p class="simple-bio">{{ bio }}</p>
+    <div class="simple-stats">
+        <span>Треков: {{ tracks_count }}</span> |
+        <span>Подписчиков: {{ followers_count }}</span> |
+        <span>Подписок: {{ following_count }}</span>
+    </div>
+</div>
+<div class="user-tracks">
+    <h3>Треки пользователя</h3>
+    <ul>
+        {% for track in tracks %}
+            <li>{{ track.title }}</li>
+        {% empty %}
+            <li>Нет треков.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

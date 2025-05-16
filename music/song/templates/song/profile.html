@@ -3,27 +3,31 @@
 {% block profile %}
 <div class="simple-profile">
     <h2>{{ username }}</h2>
-    <p class="simple-bio">{{ bio }}</p>
-    
     <div class="simple-stats">
         <span>Треков: {{ tracks_count }}</span> |
         <span>Подписчиков: {{ followers_count }}</span> |
         <span>Подписок: {{ following_count }}</span>
     </div>
+    <div class="status-section" style="margin-top: 20px;">
+        <strong>Статус:</strong>
+        {% if status %}
+            <span>{{ status }}</span>
+        {% else %}
+            <span style="color: #888;">Статус не указан</span>
+        {% endif %}
+        {% if user.is_authenticated and user.username == username %}
+            <form method="post" style="margin-top: 10px;">
+                {% csrf_token %}
+                <input type="text" name="status" value="{{ status }}" placeholder="Введите статус..." style="width: 70%; border-radius: 8px; padding: 6px;">
+                <button type="submit" name="set_status" style="margin-left: 8px;">Добавить статус</button>
+            </form>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
 
 {% block content %}
-{% if user.is_authenticated and user.username == username %}
-<div class="about-me-form">
-    <h3>Добавить или изменить информацию обо мне</h3>
-    <form method="post">
-        {% csrf_token %}
-        <textarea name="bio" rows="4" cols="50" placeholder="Напишите о себе...">{{ bio }}</textarea><br>
-        <button type="submit">Сохранить</button>
-    </form>
-</div>
-{% endif %}
+<!-- Здесь больше нет блока "О себе" -->
 {% endblock %}
 
 {% block help %}

@@ -6,9 +6,13 @@
     <ul class="users-list">
         {% for user in users %}
             <li class="user-item">
-                <i class="fas fa-user"></i> {{ user.username }}
-                {% if user != request.user %}
-                    {% if user in request.user.profile.subscriptions.all %}
+                <i class="fas fa-user"></i>
+                {% if user == request.user %}
+                    <span>{{ user.username }} Это вы</span>
+                {% else %}
+                    <a href="{% url 'user_profile' user.id %}">{{ user.username }}</a>
+                    {% if user.profile in request.user.profile.subscriptions.all %}
+                        <span>У вас в друзьях</span>
                         <form method="post" action="{% url 'unsubscribe' user.id %}" style="display:inline;">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger btn-sm">Отписаться</button>

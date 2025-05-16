@@ -12,8 +12,8 @@ urlpatterns = [
     path('login/', LoginUser.as_view(), name='login'),
     path('track', track, name='track'),
     path('user', user, name='user'),
-    path('install', install, name='install'),
     path('subscribe/<int:user_id>/', subscribe, name='subscribe'),
     path('unsubscribe/<int:user_id>/', unsubscribe, name='unsubscribe'),
+    path('user/<int:user_id>/', user_profile, name='user_profile'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
