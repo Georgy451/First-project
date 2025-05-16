@@ -23,6 +23,18 @@
             </form>
         {% endif %}
     </div>
+    {% if user.is_authenticated and user.username == username %}
+        <div style="margin-top: 20px;">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ avatar_form.as_p }}
+                <button type="submit" name="set_avatar">Загрузить аватар</button>
+            </form>
+            {% if avatar_url %}
+                <img src="{{ avatar_url }}" alt="Аватар" style="max-width:120px; border-radius:50%; margin-top:10px;">
+            {% endif %}
+        </div>
+    {% endif %}
 </div>
 {% endblock %}
 

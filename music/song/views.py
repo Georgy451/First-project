@@ -3,7 +3,7 @@ from django.template.loader import render_to_string
 from .models import * 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import TrackUploadForm, RegisterUserForm, LoginUserForm
+from .forms import TrackUploadForm, RegisterUserForm, LoginUserForm, ProfileAvatarForm
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from django.contrib.auth import login, logout
@@ -16,8 +16,13 @@ from django.contrib.auth.models import User
 def index(request):
     return render(request, 'song/index.html')
 
-def base(request): 
-    return render(request, 'song/base.html')
+def base(request):
+    all_tracks = Track.objects.all()
+    all_playlists = Playlist.objects.all()
+    return render(request, 'song/base.html', {
+        'all_tracks': all_tracks,
+        'all_playlists': all_playlists,
+    })
 
 def user(request):
     users = User.objects.all()
@@ -83,11 +88,19 @@ def profile(request):
     followers_count = profile.followers.count()
     following_count = profile.subscriptions.count()
 
+    avatar_form = ProfileAvatarForm(instance=profile)
+    avatar_url = profile.avatar.url if profile.avatar else None
+
     if request.method == "POST":
         if "set_status" in request.POST:
             status = request.POST.get("status", "")
             profile.status = status
             profile.save()
+        elif "set_avatar" in request.POST:
+            avatar_form = ProfileAvatarForm(request.POST, request.FILES, instance=profile)
+            if avatar_form.is_valid():
+                avatar_form.save()
+                avatar_url = profile.avatar.url if profile.avatar else None
         else:
             bio = request.POST.get("bio", "")
             profile.bio = bio
@@ -100,6 +113,8 @@ def profile(request):
         "tracks_count": tracks_count,
         "followers_count": followers_count,
         "following_count": following_count,
+        "avatar_form": avatar_form,
+        "avatar_url": avatar_url,
     }
     return render(request, "song/profile.html", context)
 

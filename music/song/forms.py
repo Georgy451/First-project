@@ -2,6 +2,7 @@ from django import forms
 from .models import Track
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from .models import Track, Profile
 
 class TrackUploadForm(forms.ModelForm):
     class Meta:
@@ -17,7 +18,10 @@ class TrackUploadForm(forms.ModelForm):
                 'class': 'form-input-file'
             }),
         }
-
+class ProfileAvatarForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['avatar']
 
 class RegisterUserForm(UserCreationForm):
     username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))

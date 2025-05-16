@@ -16,6 +16,7 @@ class Profile(models.Model):
     bio = models.TextField(blank=True, default='')
     subscriptions = models.ManyToManyField('self', symmetrical=False, related_name='followers', blank=True)
     status = models.CharField(max_length=100, blank=True, default='')
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)  # Новое поле
 
     def __str__(self):
         return self.user.username

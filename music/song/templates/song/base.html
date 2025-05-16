@@ -56,6 +56,35 @@
                 <audio id="main-audio-player"></audio>
             </div>
         </section>
+
+        <section class="all-playlists-section" style="margin: 30px auto; max-width: 700px;">
+    <h2>Мои плейлисты</h2>
+    <ul>
+        {% for playlist in all_playlists %}
+            <li>
+                <strong>{{ playlist.name }}</strong> ({{ playlist.user.username }})
+                <ul>
+                    {% for track in playlist.tracks.all %}
+                        <li>
+                            {{ track.title }}
+                            {% if track.audio_file %}
+                                <audio controls style="vertical-align: middle; margin-left: 10px;">
+                                    <source src="{{ track.audio_file.url }}">
+                                    Ваш браузер не поддерживает аудио.
+                                </audio>
+                            {% endif %}
+                        </li>
+                    {% empty %}
+                        <li>Плейлист пуст.</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% empty %}
+            <li>Плейлистов пока нет.</li>
+        {% endfor %}
+    </ul>
+        </section>
+
     </div>
     {% endblock content %}
     </main>
