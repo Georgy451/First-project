@@ -8,7 +8,9 @@ from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
-
+from django.contrib.auth.models import User
+from django.shortcuts import redirect, get_object_or_404
+from django.contrib.auth.models import User
 
 
 def index(request):
@@ -17,9 +19,10 @@ def index(request):
 def base(request): 
     return render(request, 'song/base.html')
 
-
 def user(request):
-    return render(request, 'song/user.html')
+    users = User.objects.all()
+    return render(request, 'song/user.html', {'users': users})
+
 def track(request):
     songs = Track.objects.filter(user=request.user).all()
     return render(request, 'song/track.html', {'songs': songs,})
@@ -43,20 +46,26 @@ def install(request):
 
 
 
+@login_required
 def profile(request):
-    user_tracks = Track.objects.filter(user=request.user).values('title', 'audio_file')
-    tracks_count = user_tracks.count()  
-    username = request.user.username
-    
+    profile, _ = Profile.objects.get_or_create(user=request.user)
+    tracks_count = Track.objects.filter(user=request.user).count()
+    followers_count = profile.followers.count()
+    following_count = profile.subscriptions.count()
+
+    if request.method == "POST":
+        bio = request.POST.get("bio", "")
+        profile.bio = bio
+        profile.save()
+
     context = {
-        'username': username,
-        'bio': 'Слушаю и создаю музыку',
-        'tracks_count': tracks_count,
-        'followers_count': 0,  
-        'following_count': 0, 
-        'user_tracks': user_tracks,
+        "username": request.user.username,
+        "bio": profile.bio,
+        "tracks_count": tracks_count,
+        "followers_count": followers_count,
+        "following_count": following_count,
     }
-    return render(request, 'song/profile.html', context)
+    return render(request, "song/profile.html", context)
 
 def about(request):
     return render(request, 'song/about.html')
@@ -91,6 +100,26 @@ class LoginUser(LoginView):
 def logout_user(request):
     logout(request)
     return redirect('login')
+
+@login_required
+def subscribe(request, user_id):
+    if request.method == "POST":
+        user_to_subscribe = get_object_or_404(User, id=user_id)
+        profile, _ = Profile.objects.get_or_create(user=request.user)
+        target_profile, _ = Profile.objects.get_or_create(user=user_to_subscribe)
+        if user_to_subscribe != request.user:
+            profile.subscriptions.add(target_profile)
+    return redirect(request.META.get('HTTP_REFERER', 'user'))
+
+@login_required
+def unsubscribe(request, user_id):
+    if request.method == "POST":
+        user_to_unsubscribe = get_object_or_404(User, id=user_id)
+        profile, _ = Profile.objects.get_or_create(user=request.user)
+        target_profile, _ = Profile.objects.get_or_create(user=user_to_unsubscribe)
+        if user_to_unsubscribe != request.user:
+            profile.subscriptions.remove(target_profile)
+    return redirect(request.META.get('HTTP_REFERER', 'user'))
 
 
 

@@ -13,5 +13,7 @@ urlpatterns = [
     path('track', track, name='track'),
     path('user', user, name='user'),
     path('install', install, name='install'),
+    path('subscribe/<int:user_id>/', subscribe, name='subscribe'),
+    path('unsubscribe/<int:user_id>/', unsubscribe, name='unsubscribe'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

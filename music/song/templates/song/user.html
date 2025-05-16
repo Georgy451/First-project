@@ -1,0 +1,29 @@
+{% extends 'song/base.html' %}
+
+{% block content %}
+<div class="users-window">
+    <h2>Пользователи приложения</h2>
+    <ul class="users-list">
+        {% for user in users %}
+            <li class="user-item">
+                <i class="fas fa-user"></i> {{ user.username }}
+                {% if user != request.user %}
+                    {% if user in request.user.profile.subscriptions.all %}
+                        <form method="post" action="{% url 'unsubscribe' user.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Отписаться</button>
+                        </form>
+                    {% else %}
+                        <form method="post" action="{% url 'subscribe' user.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary btn-sm">Подписаться</button>
+                        </form>
+                    {% endif %}
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>Пользователей не найдено.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock content %}

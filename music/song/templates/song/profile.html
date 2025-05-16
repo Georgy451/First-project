@@ -14,30 +14,16 @@
 {% endblock %}
 
 {% block content %}
-<div>
-    <h2>Мои треки ({{ tracks_count }})</h2>
-    
-    {% if user_tracks %}
-    <table border="1" cellpadding="10" cellspacing="0" width="100%">
-        <thead>
-            <tr bgcolor="#f2f2f2">
-                <th>Название</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for track in user_tracks %}
-            <tr>
-                <td><strong>{{ track.title }}</strong></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <div>
-        <p><i>Пока нет добавленных треков</i></p>
-    </div>
-    {% endif %}
+{% if user.is_authenticated and user.username == username %}
+<div class="about-me-form">
+    <h3>Добавить или изменить информацию обо мне</h3>
+    <form method="post">
+        {% csrf_token %}
+        <textarea name="bio" rows="4" cols="50" placeholder="Напишите о себе...">{{ bio }}</textarea><br>
+        <button type="submit">Сохранить</button>
+    </form>
 </div>
+{% endif %}
 {% endblock %}
 
 {% block help %}
