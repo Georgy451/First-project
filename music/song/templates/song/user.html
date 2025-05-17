@@ -1,32 +1,32 @@
 {% extends 'song/base.html' %}
 
 {% block content %}
-<div class="users-window">
-    <h2>Пользователи приложения</h2>
+<div class="users-window pretty-block">
+    <h2 class="users-title">Пользователи приложения</h2>
     <ul class="users-list">
         {% for user in users %}
             <li class="user-item">
-                <i class="fas fa-user"></i>
+                <i class="fas fa-user user-icon"></i>
                 {% if user == request.user %}
-                    <span>{{ user.username }} Это вы</span>
+                    <span class="user-name self">{{ user.username }} <span class="self-label">Это вы</span></span>
                 {% else %}
-                    <a href="{% url 'user_profile' user.id %}">{{ user.username }}</a>
+                    <a href="{% url 'user_profile' user.id %}" class="user-name">{{ user.username }}</a>
                     {% if user.profile in request.user.profile.subscriptions.all %}
-                        <span>У вас в друзьях</span>
-                        <form method="post" action="{% url 'unsubscribe' user.id %}" style="display:inline;">
+                        <span class="friend-label">У вас в друзьях</span>
+                        <form method="post" action="{% url 'unsubscribe' user.id %}" class="user-action-form">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-danger btn-sm">Отписаться</button>
+                            <button type="submit" class="user-btn danger">Отписаться</button>
                         </form>
                     {% else %}
-                        <form method="post" action="{% url 'subscribe' user.id %}" style="display:inline;">
+                        <form method="post" action="{% url 'subscribe' user.id %}" class="user-action-form">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-primary btn-sm">Подписаться</button>
+                            <button type="submit" class="user-btn primary">Подписаться</button>
                         </form>
                     {% endif %}
                 {% endif %}
             </li>
         {% empty %}
-            <li>Пользователей не найдено.</li>
+            <li class="user-item empty">Пользователей не найдено.</li>
         {% endfor %}
     </ul>
 </div>

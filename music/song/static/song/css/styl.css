@@ -899,3 +899,161 @@ footer a:hover {
         gap: 10px;
     }
 }
+
+/* --- USERS PAGE BEAUTY --- */
+.users-window {
+    background: rgba(35, 58, 99, 0.10);
+    border-radius: 18px;
+    padding: 32px 24px;
+    margin: 32px auto 0 auto;
+    max-width: 700px;
+    box-shadow: 0 4px 24px 0 rgba(20, 30, 60, 0.10);
+}
+
+.pretty-block {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #233a63 100%);
+    border-radius: 16px;
+    box-shadow: 0 4px 24px 0 rgba(20, 30, 60, 0.10);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    color: #e3f0ff;
+}
+
+.users-title {
+    font-size: 2rem;
+    color: #e3f0ff;
+    margin-bottom: 1.5rem;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.users-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.user-item {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: rgba(58, 141, 222, 0.07);
+    border-radius: 10px;
+    padding: 14px 20px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 8px 0 rgba(58, 141, 222, 0.05);
+    font-size: 1.1rem;
+    transition: background 0.2s;
+}
+
+.user-item:hover {
+    background: #3a8dde;
+}
+
+.user-item.empty {
+    color: #b3b3b3;
+    font-style: italic;
+    text-align: center;
+    justify-content: center;
+}
+
+.user-icon {
+    color: #3a8dde;
+    font-size: 1.5rem;
+    background: #233a63;
+    border-radius: 50%;
+    padding: 8px;
+    margin-right: 6px;
+}
+
+.user-name {
+    color: #e3f0ff;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 1.1rem;
+    background: #233a63;
+    padding: 4px 12px;
+    border-radius: 8px;
+    letter-spacing: 0.5px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.user-name:hover {
+    background: #3a8dde;
+    color: #fff;
+}
+
+.user-name.self {
+    color: #b3b3b3;
+    background: #233a63;
+    font-style: italic;
+}
+
+.self-label {
+    color: #e67e22;
+    font-size: 0.95em;
+    margin-left: 8px;
+    font-weight: 500;
+}
+
+.friend-label {
+    color: #3a8dde;
+    background: #16213e;
+    border-radius: 6px;
+    padding: 2px 10px;
+    margin-left: 10px;
+    font-size: 0.98em;
+    font-weight: 500;
+}
+
+.user-action-form {
+    display: inline;
+    margin-left: 10px;
+}
+
+.user-btn {
+    background: linear-gradient(90deg, #233a63 0%, #3a8dde 100%);
+    color: #e3f0ff;
+    border: none;
+    border-radius: 8px;
+    padding: 7px 18px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, transform 0.15s;
+    margin-left: 0;
+}
+
+.user-btn.primary {
+    background: linear-gradient(90deg, #233a63 0%, #3a8dde 100%);
+}
+
+.user-btn.primary:hover {
+    background: linear-gradient(90deg, #3a8dde 0%, #233a63 100%);
+    color: #fff;
+    transform: translateY(-2px) scale(1.04);
+}
+
+.user-btn.danger {
+    background: #e74c3c;
+    color: #fff;
+}
+
+.user-btn.danger:hover {
+    background: #c0392b;
+}
+
+@media (max-width: 700px) {
+    .users-window {
+        padding: 18px 6px;
+    }
+    .pretty-block {
+        padding: 1rem;
+    }
+    .user-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 12px 10px;
+    }
+}
