@@ -1,13 +1,33 @@
 {% extends "song/base.html" %}
-
+{% load static %}
 {% block content %}
-<div class="simple-profile">
-    <h2>{{ profile_user.username }}</h2>
-    <p class="simple-bio">{{ bio }}</p>
-    <div class="simple-stats">
-        <span>Треков: {{ tracks_count }}</span> |
-        <span>Подписчиков: {{ followers_count }}</span> |
-        <span>Подписок: {{ following_count }}</span>
+<div class="simple-profile-flex">
+    <div class="simple-profile-left">
+        <h2 style="margin-bottom: 4px;">{{ profile_user.username }}</h2>
+        <div class="status-section" style="margin-bottom: 10px; text-align: left;">
+            <strong>Статус:</strong>
+            {% if status %}
+                <span>{{ status }}</span>
+            {% else %}
+                <span style="color: #888;">Статус не указан</span>
+            {% endif %}
+        </div>
+        <p class="simple-bio">{{ bio }}</p>
+        <div class="simple-stats">
+            <span>Треков: {{ tracks_count }}</span> |
+            <span>Подписчиков: {{ followers_count }}</span> |
+            <span>Подписок: {{ following_count }}</span>
+        </div>
+    </div>
+    <div class="simple-profile-right">
+        {# Аватарка скрыта #}
+        {# 
+        {% if profile_user.profile.avatar %}
+            <img src="{{ profile_user.profile.avatar.url }}" alt="Аватар" class="profile-avatar-square">
+        {% else %}
+            <img src="{% static 'song/default_avatar.png' %}" alt="Нет аватара" class="profile-avatar-square">
+        {% endif %}
+        #}
     </div>
 </div>
 <div class="user-tracks">

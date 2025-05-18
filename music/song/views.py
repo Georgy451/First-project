@@ -25,7 +25,11 @@ def base(request):
     })
 
 def user(request):
-    users = User.objects.all()
+    search_query = request.GET.get('search', '').strip()
+    if search_query:
+        users = User.objects.filter(username__icontains=search_query)
+    else:
+        users = User.objects.all()
     return render(request, 'song/user.html', {'users': users})
 
 def user_profile(request, user_id):
@@ -37,6 +41,7 @@ def user_profile(request, user_id):
     context = {
         "profile_user": user,
         "bio": profile.bio,
+        "status": profile.status,  # добавьте эту строку
         "tracks": tracks,
         "tracks_count": tracks.count(),
         "followers_count": followers_count,

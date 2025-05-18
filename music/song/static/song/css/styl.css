@@ -513,31 +513,18 @@ footer a:hover {
     min-width: 220px;
 }
 
-.simple-profile-right-row {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 32px;
-    min-width: 220px;
-}
-
-.profile-avatar {
-    max-width: 120px;
-    border-radius: 50%;
-    margin-top: 10px;
-    box-shadow: 0 2px 8px 0 rgba(58, 141, 222, 0.10);
-}
-
 .profile-avatar-square {
     width: 80px;
     height: 80px;
     object-fit: cover;
     border-radius: 10px;
     box-shadow: 0 2px 8px 0 rgba(58, 141, 222, 0.10);
-    margin-left: 12px;
+    margin-left: 24px;
 }
 
 .status-section {
+    text-align: left;
+    margin-left: 0;
     width: 100%;
     min-width: 180px;
     margin-bottom: 0;
