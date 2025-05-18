@@ -20,14 +20,11 @@
         </div>
     </div>
     <div class="simple-profile-right">
-        {# Аватарка скрыта #}
-        {# 
         {% if profile_user.profile.avatar %}
             <img src="{{ profile_user.profile.avatar.url }}" alt="Аватар" class="profile-avatar-square">
         {% else %}
             <img src="{% static 'song/default_avatar.png' %}" alt="Нет аватара" class="profile-avatar-square">
         {% endif %}
-        #}
     </div>
 </div>
 <div class="user-tracks">

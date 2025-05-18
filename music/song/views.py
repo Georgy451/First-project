@@ -17,8 +17,8 @@ def index(request):
     return render(request, 'song/index.html')
 
 def base(request):
-    all_tracks = Track.objects.all()
-    all_playlists = Playlist.objects.all()
+    all_tracks = Track.objects.filter(user=request.user)
+    all_playlists = Playlist.objects.filter(user=request.user)
     return render(request, 'song/base.html', {
         'all_tracks': all_tracks,
         'all_playlists': all_playlists,
