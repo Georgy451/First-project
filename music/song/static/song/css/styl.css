@@ -1097,9 +1097,13 @@ footer a:hover {
 
 .playlists-list {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;           /* Горизонтально */
     gap: 2.5rem;
-    align-items: center;
+    align-items: stretch;
+    overflow-x: auto;              /* Горизонтальный скролл при переполнении */
+    padding-bottom: 16px;
+    scrollbar-width: thin;
+    scrollbar-color: #3a8dde #233a63;
 }
 
 .playlist-card {
@@ -1107,8 +1111,9 @@ footer a:hover {
     border-radius: 24px;
     padding: 2.2rem 2.5rem;
     box-shadow: 0 8px 40px 0 rgba(58, 141, 222, 0.25), 0 1.5px 8px 0 rgba(0,0,0,0.10);
-    min-width: 350px;
-    max-width: 600px;
+    min-width: 340px;              /* Минимальная ширина карточки */
+    max-width: 400px;
+    flex: 0 0 auto;                /* Не сжимать, не растягивать */
     width: 100%;
     transition: box-shadow 0.2s, transform 0.2s;
     margin: 0 auto;
@@ -1224,6 +1229,28 @@ footer a:hover {
 .track-play-btn:hover {
     background: #3a8dde;
     transform: scale(1.13);
+}
+
+@media (max-width: 900px) {
+    .playlists-list {
+        gap: 1rem;
+        padding-bottom: 10px;
+    }
+    .playlist-card {
+        min-width: 260px;
+        max-width: 90vw;
+        padding: 1rem 0.5rem;
+    }
+}
+
+.playlists-list::-webkit-scrollbar {
+    height: 8px;
+    background: #233a63;
+    border-radius: 8px;
+}
+.playlists-list::-webkit-scrollbar-thumb {
+    background: #3a8dde;
+    border-radius: 8px;
 }
 
 @media (max-width: 800px) {
