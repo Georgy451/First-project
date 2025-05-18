@@ -34,7 +34,14 @@
     <h3>Треки пользователя</h3>
     <ul>
         {% for track in tracks %}
-            <li>{{ track.title }}</li>
+            <li>
+                {{ track.title }}
+                {% if track.audio_file %}
+                    <a href="{{ track.audio_file.url }}" download class="download-btn" style="margin-left: 10px;">
+                        <i class="fas fa-download"></i> Скачать
+                    </a>
+                {% endif %}
+            </li>
         {% empty %}
             <li>Нет треков.</li>
         {% endfor %}
