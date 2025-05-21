@@ -11,11 +11,13 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
     return render(request, 'song/index.html')
 
+@login_required(login_url='/login/') 
 def base(request):
     all_tracks = Track.objects.filter(user=request.user)
     all_playlists = Playlist.objects.filter(user=request.user)
@@ -41,7 +43,7 @@ def user_profile(request, user_id):
     context = {
         "profile_user": user,
         "bio": profile.bio,
-        "status": profile.status,  # добавьте эту строку
+        "status": profile.status,
         "tracks": tracks,
         "tracks_count": tracks.count(),
         "followers_count": followers_count,
