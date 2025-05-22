@@ -12,6 +12,9 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.views import View
+from django.utils.decorators import method_decorator
+
 
 
 def index(request):
@@ -51,59 +54,88 @@ def user_profile(request, user_id):
     }
     return render(request, "song/user_profile.html", context)
 
-def track(request):
-    songs = Track.objects.filter(user=request.user)
-    playlists = Playlist.objects.filter(user=request.user)
-    if request.method == 'POST':
-        if 'add_playlist' in request.POST:
-            name = request.POST.get('playlist_name', '').strip()
-            if name:
-                Playlist.objects.create(user=request.user, name=name)
-            form = TrackUploadForm()
-        elif 'add_to_playlist' in request.POST:
-            track_id = request.POST.get('track_id')
-            playlist_id = request.POST.get('playlist_id')
-            try:
-                playlist = Playlist.objects.get(id=playlist_id, user=request.user)
-                track_obj = Track.objects.get(id=track_id, user=request.user)
-                playlist.tracks.add(track_obj)
-                messages.success(request, 'Трек добавлен в плейлист!')
-            except (Playlist.DoesNotExist, Track.DoesNotExist):
-                messages.error(request, 'Ошибка при добавлении трека в плейлист.')
-            form = TrackUploadForm()
-        elif 'delete_playlist' in request.POST:
-            playlist_id = request.POST.get('delete_playlist_id')
-            try:
-                playlist = Playlist.objects.get(id=playlist_id, user=request.user)
-                playlist.delete()
-                messages.success(request, 'Плейлист удалён!')
-            except Playlist.DoesNotExist:
-                messages.error(request, 'Плейлист не найден.')
-            form = TrackUploadForm()
-        elif 'delete_track' in request.POST:
-            track_id = request.POST.get('delete_track_id')
-            try:
-                track = Track.objects.get(id=track_id, user=request.user)
-                track.delete()
-                messages.success(request, 'Трек удалён!')
-            except Track.DoesNotExist:
-                messages.error(request, 'Трек не найден.')
-            form = TrackUploadForm()
-        else:
-            form = TrackUploadForm(request.POST, request.FILES)
-            if form.is_valid():
-                track = form.save(commit=False)
-                track.user = request.user
-                track.save()
-                messages.success(request, 'Трек успешно загружен!')
-                return redirect('track')
-    else:
+@method_decorator(login_required(login_url='/login/'), name='dispatch')
+class TrackView(View):
+    template_name = 'song/track.html'
+
+    def get(self, request):
         form = TrackUploadForm()
-    return render(request, 'song/track.html', {
-        'songs': songs,
-        'form': form,
-        'playlists': playlists,
-    })
+        return self.render_page(request, form)
+
+    def post(self, request):
+        if 'add_playlist' in request.POST:
+            return self.handle_add_playlist(request)
+
+        if 'add_to_playlist' in request.POST:
+            return self.handle_add_to_playlist(request)
+
+        if 'delete_playlist' in request.POST:
+            return self.handle_delete_playlist(request)
+
+        if 'delete_track' in request.POST:
+            return self.handle_delete_track(request)
+
+        return self.handle_upload_track(request)
+
+    def render_page(self, request, form):
+        songs = Track.objects.filter(user=request.user)
+        playlists = Playlist.objects.filter(user=request.user)
+        return render(request, self.template_name, {
+            'songs': songs,
+            'form': form,
+            'playlists': playlists,
+        })
+
+    def handle_add_playlist(self, request):
+        name = request.POST.get('playlist_name', '').strip()
+        if name:
+            Playlist.objects.create(user=request.user, name=name)
+            messages.success(request, 'Плейлист создан!')
+        return redirect('track')
+
+    def handle_add_to_playlist(self, request):
+        track_id = request.POST.get('track_id')
+        playlist_id = request.POST.get('playlist_id')
+        try:
+            playlist = Playlist.objects.get(id=playlist_id, user=request.user)
+            track = Track.objects.get(id=track_id, user=request.user)
+            playlist.tracks.add(track)
+            messages.success(request, 'Трек добавлен в плейлист!')
+        except (Playlist.DoesNotExist, Track.DoesNotExist):
+            messages.error(request, 'Ошибка при добавлении трека.')
+        return redirect('track')
+
+    def handle_delete_playlist(self, request):
+        playlist_id = request.POST.get('delete_playlist_id')
+        try:
+            playlist = Playlist.objects.get(id=playlist_id, user=request.user)
+            playlist.delete()
+            messages.success(request, 'Плейлист удалён!')
+        except Playlist.DoesNotExist:
+            messages.error(request, 'Плейлист не найден.')
+        return redirect('track')
+
+    def handle_delete_track(self, request):
+        track_id = request.POST.get('delete_track_id')
+        try:
+            track = Track.objects.get(id=track_id, user=request.user)
+            track.delete()
+            messages.success(request, 'Трек удалён!')
+        except Track.DoesNotExist:
+            messages.error(request, 'Трек не найден.')
+        return redirect('track')
+
+    def handle_upload_track(self, request):
+        form = TrackUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            track = form.save(commit=False)
+            track.user = request.user
+            track.save()
+            messages.success(request, 'Трек успешно загружен!')
+            return redirect('track')
+        else:
+            messages.error(request, 'Ошибка загрузки трека.')
+        return self.render_page(request, form)
 
 
 @login_required
