@@ -139,5 +139,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://2c97-57-129-38-237.ngrok-free.app',  # Точный URL ngrok
+    'https://38f7d23a5265.ngrok-free.app',  # Точный URL ngrok
 ]
