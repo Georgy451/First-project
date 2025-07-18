@@ -7,7 +7,7 @@
 1. **Клонируйте репозиторий:**
    ```sh
    git clone https://github.com/Georgy451/First-project.git
-   cd First-project/music
+
    ```
 
 2. **Создайте и активируйте виртуальное окружение (рекомендуется):**
@@ -54,5 +54,3 @@
    ```sh
    docker run -p 8000:8000 music-app
    ```
-
----
